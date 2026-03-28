@@ -1,33 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <title>3D Cube</title>
-  <style>
-    .cube {
-      position: relative;
-      width: 100px;
-      transform: rotateX(-30deg) rotateY(45deg);
-    }
+    <meta charset="UTF-8">
+    <title>3D Gradient Cube</title>
+    <style>
+        /* 页面居中显示 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
 
-    .face {
-      position: absolute;
-      width: 100px;
-      height: 100px;
-      background: linear-gradient(45deg, #667eea, #764ba2);
-      border: 1px solid #333;
-    }
+        /* 立方体容器 */
+        .cube-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
 
-    .front { transform: translateZ(50px); }
-    .top { transform: translateY(-50px) rotateX(90deg); }
-    .side { transform: translateX(50px) rotateY(90deg); }
-  </style>
+        .face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+        }
+
+        /* 正面：标准正方形 */
+        .front {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            z-index: 3;
+        }
+
+        /* 顶面：通过 skewX 倾斜并平移 */
+        .top {
+            background: linear-gradient(135deg, #5dade2, #3498db);
+            height: 50px; /* 压缩高度以产生透视感 */
+            transform: skewX(-45deg) translate(25px, -50px);
+            z-index: 2;
+        }
+
+        /* 右侧面：通过 skewY 倾斜并平移 */
+        .right {
+            background: linear-gradient(135deg, #2e86c1, #1b4f72);
+            width: 50px; /* 压缩宽度以产生透视感 */
+            transform: skewY(-45deg) translate(100px, 25px);
+            z-index: 1;
+        }
+    </style>
 </head>
 <body>
-  <div class="cube">
-    <div class="face front"></div>
-    <div class="face top"></div>
-    <div class="face side"></div>
-  </div>
+
+    <div class="cube-container">
+        <div class="face top"></div>
+        <div class="face right"></div>
+        <div class="face front"></div>
+    </div>
+
 </body>
 </html>
+

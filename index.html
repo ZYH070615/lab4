@@ -2,57 +2,69 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>3D Gradient Cube</title>
+    <title>3D Gradient Cube - Corrected</title>
     <style>
-        /* 页面居中显示 */
+        /* 全局居中显示 */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background-color: #f0f0f0;
             margin: 0;
+            font-family: sans-serif;
         }
 
-        /* 立方体容器 */
-        .cube-container {
+        /* 3D 立方体容器 */
+        .cube {
             position: relative;
-            width: 100px;
-            height: 100px;
+            width: 300px;
+            height: 300px;
         }
 
+        /* 所有面的共同样式 */
         .face {
             position: absolute;
-            width: 100px;
+            width: 100px; /* 立方体边长 */
             height: 100px;
+            box-sizing: border-box;
         }
 
-        /* 正面：标准正方形 */
+        /* 正面 (Front): 标准正方形，不需要倾斜 */
         .front {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            z-index: 3;
+            /* 放在中心 (100, 100) */
+            left: 100px;
+            top: 100px;
+            background: linear-gradient(135deg, #3498db, #2980b9); /* 经典蓝 */
+            z-index: 3; /* 最前面 */
         }
 
-        /* 顶面：通过 skewX 倾斜并平移 */
+        /* 顶面 (Top): 放在正面上面，使用 skewX 倾斜，并精确平移 */
         .top {
-            background: linear-gradient(135deg, #5dade2, #3498db);
-            height: 50px; /* 压缩高度以产生透视感 */
-            transform: skewX(-45deg) translate(25px, -50px);
+            /* 放在正面正上方 (100, 0) */
+            left: 100px;
+            top: 0px;
+            background: linear-gradient(135deg, #aed6f1, #5dade2); /* 亮蓝，模拟上方光线 */
+            /* 关键点：skewX(-45deg) 让顶面左倾，translateX(100px) 将其右移与正面齐平 */
+            transform: skewX(-45deg) translateX(100px);
             z-index: 2;
         }
 
-        /* 右侧面：通过 skewY 倾斜并平移 */
+        /* 右侧面 (Right): 放在正面右侧，使用 skewY 倾斜，并精确平移 */
         .right {
-            background: linear-gradient(135deg, #2e86c1, #1b4f72);
-            width: 50px; /* 压缩宽度以产生透视感 */
-            transform: skewY(-45deg) translate(100px, 25px);
-            z-index: 1;
+            /* 放在正面正右方 (200, 100) */
+            left: 200px;
+            top: 100px;
+            background: linear-gradient(135deg, #2e86c1, #1b4f72); /* 暗蓝，模拟背光 */
+            /* 关键点：skewY(-45deg) 让侧面向上倾斜，translateY(200px) 将其下移与正面齐平 */
+            transform: skewY(-45deg) translateY(200px);
+            z-index: 1; /* 最底面 */
         }
     </style>
 </head>
 <body>
 
-    <div class="cube-container">
+    <div class="cube">
         <div class="face top"></div>
         <div class="face right"></div>
         <div class="face front"></div>
@@ -60,4 +72,5 @@
 
 </body>
 </html>
+
 

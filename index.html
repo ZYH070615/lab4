@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>3D Cube</title>
+  <style>
+    .cube {
+      position: relative;
+      width: 100px;
+      transform: rotateX(-30deg) rotateY(45deg);
+    }
+
+    .face {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border: 1px solid #333;
+    }
+
+    .front { transform: translateZ(50px); }
+    .top { transform: translateY(-50px) rotateX(90deg); }
+    .side { transform: translateX(50px) rotateY(90deg); }
+  </style>
+</head>
+<body>
+  <div class="cube">
+    <div class="face front"></div>
+    <div class="face top"></div>
+    <div class="face side"></div>
+  </div>
+</body>
+</html>

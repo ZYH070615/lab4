@@ -2,79 +2,145 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>3D Gradient Cube - Corrected Position</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D渐变立方体</title>
     <style>
-        /* 全局居中 */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f7f7f7;
+            min-height: 100vh;
             margin: 0;
-            font-family: sans-serif;
+            background: #f0f0f0;
+            perspective: 1000px;
         }
-
-        /* 3D 立方体容器 */
-        .cube-container {
+        
+        .scene {
+            width: 200px;
+            height: 200px;
             position: relative;
-            /* 我们将在这个位置周围组装立方体，边长统一使用 100px */
-            width: 100px;
-            height: 100px;
+            transform-style: preserve-3d;
+            animation: rotate 10s infinite linear;
         }
-
-        /* 所有面的共同样式 */
+        
+        @keyframes rotate {
+            from { transform: rotateX(0) rotateY(0); }
+            to { transform: rotateX(360deg) rotateY(360deg); }
+        }
+        
+        .cube {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+        }
+        
         .face {
             position: absolute;
-            width: 100px; /* 立方体基准边长 */
-            height: 100px;
-            box-sizing: border-box;
+            width: 200px;
+            height: 200px;
+            border: 2px solid #333;
+            opacity: 0.9;
         }
-
-        /* 1. 正面 (Front): 标准正方形，不需要倾斜，它是对齐的基准 */
+        
+        /* 正面 */
         .front {
-            background: linear-gradient(135deg, #3498db, #2980b9); /* 蓝色渐变 */
-            z-index: 3; /* 放在最前面 */
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            transform: translateZ(100px);
         }
-
-        /* 2. 顶面 (Top): 亮蓝色渐变 */
+        
+        /* 后面 */
+        .back {
+            background: linear-gradient(45deg, #ffa500, #ffd700);
+            transform: rotateY(180deg) translateZ(100px);
+        }
+        
+        /* 顶部 */
         .top {
-            background: linear-gradient(135deg, #aed6f1, #5dade2); /* 亮蓝，模拟上方光线 */
-            /* 为了获得更好的 3D 视觉效果，我们将顶面的高度压缩为一半 */
-            height: 50px; 
-            /* --- 核心修正：精准定位 --- */
-            /* 1. 先 skewX(-45deg)，顶边偏向左边。
-               2. **translate(25px, -50px)**：
-                  - translateY(-50px) 将其整体放到正面正上方。
-                  - translateX(25px) 非常关键。-45度的 skewX 导致顶边向左移动了一个自身高度的距离（这里是50px）。为了让其底边与正面的顶边完全对齐，我们需要把它向右拉回一个距离，即斜面压缩高度的一半（50 / 2 = 25px）。
-            */
-            transform: skewX(-45deg) translate(25px, -50px);
-            z-index: 2;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            transform: rotateX(90deg) translateZ(100px);
         }
-
-        /* 3. 右侧面 (Right): 暗蓝色渐变 */
+        
+        /* 底部 */
+        .bottom {
+            background: linear-gradient(45deg, #45b7d1, #96c93d);
+            transform: rotateX(-90deg) translateZ(100px);
+        }
+        
+        /* 左侧 */
+        .left {
+            background: linear-gradient(45deg, #9b59b6, #e74c3c);
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+        
+        /* 右侧 */
         .right {
-            background: linear-gradient(135deg, #2e86c1, #1b4f72); /* 暗蓝，模拟背光 */
-            /* 将侧面的宽度也压缩为一半 */
-            width: 50px;
-            /* --- 核心修正：精准定位 --- */
-            /* 1. skewY(-45deg)，远端（右下角）会向下翘起。
-               2. **translate(100px, 25px)**：
-                  - translateX(100px) 将其整体移动到正面的正右侧。
-                  - translateY(25px) 非常关键。-45度的 skewY 导致其右边向下倾斜。为了让其左边与正面的右边完全对齐，我们需要把整个面向上拉回一个距离，即侧面压缩宽度的一半（50 / 2 = 25px）。
-            */
-            transform: skewY(-45deg) translate(100px, 25px);
-            z-index: 1; /* 最底面 */
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            transform: rotateY(90deg) translateZ(100px);
+        }
+        
+        /* 使用skew变换增强3D效果 */
+        .cube-skewed {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-top: 200px;
+        }
+        
+        .skewed-face {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 2px solid #333;
+            opacity: 0.9;
+        }
+        
+        .skewed-front {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            transform: translate(0, 0) skewX(0deg) skewY(0deg);
+        }
+        
+        .skewed-side {
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            transform: translate(75px, -40px) skewX(-30deg) skewY(0deg);
+        }
+        
+        .skewed-top {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            transform: translate(37.5px, -75px) skewX(30deg) skewY(0deg);
+        }
+        
+        .skewed-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-top: 100px;
         }
     </style>
 </head>
 <body>
-
-    <div class="cube-container">
-        <div class="face top"></div>
-        <div class="face right"></div>
-        <div class="face front"></div>
+    <div>
+        <!-- 3D立方体 - 使用真正的3D变换 -->
+        <h2>3D立方体 (使用3D变换)</h2>
+        <div class="scene">
+            <div class="cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+                <div class="face left"></div>
+                <div class="face right"></div>
+            </div>
+        </div>
+        
+        <!-- 使用skew和translate模拟的3D立方体 -->
+        <h2>使用skew和translate模拟的3D立方体</h2>
+        <div class="skewed-container">
+            <div class="skewed-face skewed-front"></div>
+            <div class="skewed-face skewed-side"></div>
+            <div class="skewed-face skewed-top"></div>
+        </div>
     </div>
-
 </body>
 </html>
+
